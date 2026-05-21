@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function AddTutorPage() {
-  return <div>AddTutorPage</div>;
+export default function AddTutorPaage() {
+  return <div>AddTutorPaage</div>;
 }
