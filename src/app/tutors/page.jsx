@@ -149,7 +149,7 @@ export default function TutorsDirectory() {
 
                     {/* Redirecting Target Routing Path Component */}
                     <Link
-                      href={`/tutors/${tutor.id}`}
+                      href={`/tutors/${tutor._id}`}
                       className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-3 rounded-xl transition-all active:scale-[0.98] shadow-md shadow-blue-500/10"
                     >
                       Book Session

@@ -15,21 +15,51 @@ import {
   Users2,
   BookmarkCheck,
 } from "lucide-react";
+import { signOut, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
+const btn = (
+  <div className="flex gap-3">
+    <Link
+      href="/login"
+      className="inline-flex items-center gap-2 bg-gray-300 hover:bg-gray-600 text-blue-600 hover:text-white font-semibold px-4 py-2 rounded-xl text-sm transition-all shadow-sm shadow-blue-100"
+    >
+      <User className="w-4 h-4" />
+      <span>Login</span>
+    </Link>
+    <Link
+      href="/register"
+      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition-all shadow-sm shadow-blue-100"
+    >
+      <User className="w-4 h-4" />
+      <span>Register</span>
+    </Link>
+  </div>
+);
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Simulated authentication states for testing UI branches
-  // Toggle this true/false to check both logged-in and logged-out states
-  const isLoggedIn = true;
+  const handleLogOut = async () => {
+    await signOut();
+    setIsProfileOpen(false);
+    router.push("/");
+  };
+  let isLoggedIn = false;
+  const { data: session } = useSession();
+  // console.log("Navbar session: ", session);
+  const data = session?.user;
+  console.log(data);
+  if (data) {
+    isLoggedIn = true;
+  }
   const user = {
-    name: "Najmul Huda",
-    email: "najmul@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+    name: data?.name,
+    email: data?.email,
+    avatar: data?.image,
   };
 
   // Close profile dropdown when clicking outside
@@ -125,6 +155,7 @@ export default function Navbar() {
                       alt="User profile"
                       fill
                       className="object-cover"
+                      unoptimized
                     />
                   </div>
                 </button>
@@ -144,18 +175,18 @@ export default function Navbar() {
                     <Link
                       href="/dashboard"
                       onClick={() => setIsProfileOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <LayoutDashboard size={16} className="text-gray-400" />
                       <span>Dashboard</span>
                     </Link>
 
                     <button
-                      onClick={() => {
-                        setIsProfileOpen(false);
+                      onClick={
+                        handleLogOut
                         /* Add manual logout trigger context function here */
-                      }}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50/50 transition-colors text-left"
+                      }
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50/80 transition-colors text-left"
                     >
                       <LogOut size={16} />
                       <span>Log out</span>
@@ -165,13 +196,7 @@ export default function Navbar() {
               </div>
             ) : (
               /* CTA for Unauthenticated Users */
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-xl text-sm transition-all shadow-sm shadow-blue-100"
-              >
-                <User className="w-4 h-4" />
-                <span>Login / Register</span>
-              </Link>
+              btn
             )}
           </div>
 
@@ -263,16 +288,7 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <div className="pt-4 border-t border-gray-100 px-3">
-                <Link
-                  href="/login"
-                  onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-semibold px-4 py-2.5 rounded-xl"
-                >
-                  <User className="w-4 h-4" />
-                  <span>Login / Register</span>
-                </Link>
-              </div>
+              <div className="pt-4 border-t border-gray-100 px-3">{btn}</div>
             )}
           </div>
         </div>
@@ -280,3 +296,4 @@ export default function Navbar() {
     </nav>
   );
 }
+//  onClick={() => setIsOpen(false)} btn
