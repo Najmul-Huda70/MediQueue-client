@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "@/lib/auth-client";
+import { authClient, signIn } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { Mail, Lock, LogIn } from "lucide-react";
 
@@ -16,13 +16,16 @@ export default function LoginPage() {
 
     const formData = new FormData(e.currentTarget);
     const loginData = Object.fromEntries(formData.entries());
-
     console.log("Attempting login for:", loginData.email);
 
-    const { data, error } = await signIn.email({
+    const { error } = await signIn.email({
       email: loginData.email,
       password: loginData.password,
+      // callbackURL: "/",
     });
+    // token
+    const { data: tokenData } = await authClient.token();
+    console.log("tokenData with login: ", tokenData);
 
     setLoading(false);
 

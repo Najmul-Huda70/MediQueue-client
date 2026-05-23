@@ -52,7 +52,7 @@ export default function Navbar() {
   const { data: session } = useSession();
   // console.log("Navbar session: ", session);
   const data = session?.user;
-  console.log(data);
+  // console.log(data);
   if (data) {
     isLoggedIn = true;
   }
@@ -114,6 +114,7 @@ export default function Navbar() {
             {/* Authenticated Links block */}
             {isLoggedIn && (
               <>
+                {" "}
                 <Link
                   href="/add-tutor"
                   className={`${isActive("/add-tutor")} flex items-center gap-1 transition-colors text-sm`}
@@ -133,7 +134,7 @@ export default function Navbar() {
                   className={`${isActive("/my-bookings")} flex items-center gap-1 transition-colors text-sm`}
                 >
                   <BookmarkCheck size={15} />
-                  <span>My Booked Sessions</span>
+                  <span>My Booked</span>
                 </Link>
               </>
             )}
