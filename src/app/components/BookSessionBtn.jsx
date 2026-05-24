@@ -1,84 +1,81 @@
 "use client";
+
 import React, { useState } from "react";
-import { User, Mail, Phone } from "lucide-react";
-export default function BookSessionBtn() {
-  //  const params = useParams();
-  //   const router = useRouter();
+import { User, Mail, Phone, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { authClient, useSession } from "@/lib/auth-client";
+import toast from "react-hot-toast";
+export default function BookSessionBtn({ tutor }) {
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  //   const _id = params?.id || "";
-
-  //   const [matchedTutor, setMatchedTutor] = useState([]);
-
-  //   const [currentSlots, setCurrentSlots] = useState(() => {
-  //     if (typeof window !== "undefined") {
-  //       const dynamicSlots = localStorage.getItem(`slots_${matchedTutor.id}`);
-  //       return dynamicSlots !== null
-  //         ? parseInt(dynamicSlots, 10)
-  //         : matchedTutor.totalSlot;
-  //     }
-  //     return matchedTutor.totalSlot;
-  //   });
-
-  //   const [isSubmitting, setIsSubmitting] = useState(false);
-  //   const [successBanner, setSuccessBanner] = useState(false);
-
-  //   const sessionDate = new Date(matchedTutor.sessionStartDate);
-
-  //   }
-  //   // console.log("matchedTutorPage: ", matchedTutor);
-  //   const { id, name, totalSlot } = matchedTutor;
-
-  //   // ৬. বুকিং ট্রান্সজেকশন হ্যান্ডলার
-  //   const handleBookingTransaction = async (e) => {
-  //     e.preventDefault();
-  //     setIsSubmitting(true);
-
-  //     // নেটওয়ার্ক ডিলে সিমুলেশন
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  //     // নতুন স্লট সংখ্যা হিসাব করা
-  //     const nextSlotValue = Math.max(0, currentSlots - 1);
-
-  //     // লকাল স্টোরেজ ও স্টেটে স্লট আপডেট
-  //     localStorage.setItem(`slots_${matchedTutor.id}`, nextSlotValue);
-  //     setCurrentSlots(nextSlotValue);
-
-  //     // কনসোলে পেলোড লগ জেনারেট করা
-  //     console.log("Booking Confirmed Payload Log:", {
-  //       studentName: studentForm.studentName,
-  //       studentEmail: studentForm.studentEmail,
-  //       phone: studentForm.phone,
-  //       tutorId: id,
-  //       tutorName: name,
-  //       bookStatus: "Confirmed",
-  //     });
-
-  //     setIsSubmitting(false);
-  //     setModalOpen(false);
-  //     setSuccessBanner(true);
-
-  //     // সাকসেস ব্যানার ৫ সেকেন্ড পর হাইড করা
-  //     setTimeout(() => setSuccessBanner(false), 5000);
-  //   };
-  //   const [studentForm, setStudentForm] = useState({
-  //     studentName: "",
-  //     studentEmail: "najmul@example.com",
-  //     phone: "",
-  //     tutorId: matchedTutor.id,
-  //     tutorName: matchedTutor.name,
-  //   });
-  //   const handlePhoneChange = (e) => {
-  //     setStudentForm({ ...studentForm, phone: e.target.value });
-  //   };
   const [modalOpen, setModalOpen] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleBooked = async (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+    console.log("e: ", e);
+    const { data: jwtData } = await authClient.token();
+    const token = jwtData?.token;
+    if (!token) {
+      toast.error("authentication falid. Booking session not add.");
+      return;
+    }
+    const user = session?.user;
+    const { id, email } = user;
+    const updatedData = {
+      _id: tutor?._id,
+      tutorId: tutor?.id,
+      userId: id,
+      studentName: formData.name,
+      studentEmail: email,
+      tutorCategory: tutor?.category,
+      phone: formData.phone,
+      // thumbnail: tutor?.thumbnail,
+    };
+    console.log("updateData: ", updatedData);
+    try {
+      setIsSubmitting(true);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/booked/${tutor?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}` || "",
+          },
+          body: JSON.stringify(updatedData),
+        },
+      );
+
+      const data = await res.json();
+      if (!data) {
+        toast.error("Something went wrong");
+        return;
+      }
+
+      toast.success("Session booked successfully!");
+      setModalOpen(false);
+      router.push("/my-bookings");
+    } catch (error) {
+      console.error(error);
+      toast.error("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div>
       <button
-        // onClick={() => setModalOpen(true)}
-        className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg active:scale-95"
+        onClick={() => setModalOpen(true)}
+        className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg active:scale-95 flex items-center gap-2"
       >
         Book Session
       </button>
+
       {/* --- FORM SUBMISSION INTERACTIVE MODAL COMPONENT --- */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-950/80 backdrop-blur-sm">
@@ -93,34 +90,31 @@ export default function BookSessionBtn() {
               </p>
             </div>
 
-            <form onSubmit={handleBookingTransaction} className="space-y-4">
-              {/* Field 1: Student Name */}
+            <form onSubmit={handleBooked} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-[10px] uppercase font-bold tracking-wider text-gray-500 flex items-center gap-1">
                   <User size={11} /> Student Name
                 </label>
                 <input
                   type="text"
-                  value={studentForm.studentName}
-                  placeholder="Enter your name"
-                  className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-500 cursor-not-allowed opacity-60"
+                  name="name"
+                  required
+                  className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-400 opacity-60 focus:outline-none"
                 />
               </div>
 
-              {/* Field 2: Student Email */}
               <div className="space-y-1">
                 <label className="text-[10px] uppercase font-bold tracking-wider text-gray-500 flex items-center gap-1">
                   <Mail size={11} /> Student Email
                 </label>
                 <input
                   type="email"
-                  disabled
-                  value={studentForm.studentEmail}
-                  className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-500 cursor-not-allowed opacity-60"
+                  readOnly
+                  value={session?.user?.email || ""}
+                  className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-400 cursor-not-allowed opacity-60 focus:outline-none"
                 />
               </div>
 
-              {/* Field 3 & 4: Tutor Details Reference Parameters Blocks */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase font-bold tracking-wider text-gray-500">
@@ -128,34 +122,32 @@ export default function BookSessionBtn() {
                   </label>
                   <input
                     type="text"
-                    disabled
-                    defaultValue={id}
-                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-500 cursor-not-allowed opacity-60"
+                    readOnly
+                    value={tutor?.id || ""}
+                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-400 cursor-not-allowed opacity-60 focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase font-bold tracking-wider text-gray-500">
-                    Tutor Name
+                    Tutor Category
                   </label>
                   <input
                     type="text"
-                    disabled
-                    defaultValue={name}
-                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-500 cursor-not-allowed opacity-60"
+                    readOnly
+                    value={tutor?.category || ""}
+                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-gray-400 cursor-not-allowed opacity-60 focus:outline-none"
                   />
                 </div>
               </div>
 
-              {/* Field 5: Manual Phone Number Input Entry Required */}
               <div className="space-y-1">
                 <label className="text-[10px] uppercase font-bold tracking-wider text-gray-300 flex items-center gap-1">
                   <Phone size={11} className="text-blue-500" /> Phone Number
                 </label>
                 <input
                   type="tel"
+                  name="phone"
                   required
-                  value={studentForm.phone}
-                  onChange={handlePhoneChange}
                   placeholder="+880 17XX-XXXXXX"
                   className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors"
                 />
@@ -165,6 +157,7 @@ export default function BookSessionBtn() {
               <div className="flex items-center justify-end gap-3 pt-2">
                 <button
                   type="button"
+                  disabled={isSubmitting}
                   onClick={() => setModalOpen(false)}
                   className="px-4 py-2 text-xs font-semibold rounded-lg text-gray-400 hover:text-white transition-colors"
                 >
@@ -173,9 +166,16 @@ export default function BookSessionBtn() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all active:scale-95"
+                  className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-all active:scale-95 flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Processing..." : "Confirm Booking"}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={12} className="animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Confirm Booking"
+                  )}
                 </button>
               </div>
             </form>

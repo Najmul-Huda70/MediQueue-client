@@ -10,25 +10,40 @@ import BookSessionBtn from "@/app/components/BookSessionBtn";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
-const fetchTutor = async (id, token) => {
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/tutors/${id}`;
-  const res = await fetch(URL, {
-    headers: {
-      authorization: `Bearer ${token}` || "",
-    },
-    cache: "no-store",
-  });
-  const data = await res.json();
-  return data || [];
+const tutorDataFetch = async (id, token) => {
+  const apiURL = process.env.NEXT_PUBLIC_API_URL;
+
+  try {
+    const res = await fetch(`${apiURL}/tutors/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch tutor: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching tutor data in frontend:", error);
+    return [];
+  }
 };
 export default async function DynamicTutorDetails({ params }) {
   const { id } = await params;
   // console.log("id : ", id);
+
   const { token } = await auth.api.getToken({
     headers: await headers(),
   });
   //console.log(token);
-  const tutor = await fetchTutor(id, token);
+  const tutor = await tutorDataFetch(id, token);
+
   console.log("tutor: ", tutor);
   const currentDate = new Date();
   const currentSlots = 2;
@@ -167,7 +182,7 @@ export default async function DynamicTutorDetails({ params }) {
                     <span>No available slots left.</span>
                   </div>
                 ) : (
-                  <BookSessionBtn />
+                  <BookSessionBtn tutor={tutor} />
                 )}
               </div>
             </div>
