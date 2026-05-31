@@ -10,30 +10,8 @@ import BookSessionBtn from "@/app/components/BookSessionBtn";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
-const tutorDataFetch = async (id, token) => {
-  const apiURL = process.env.NEXT_PUBLIC_API_URL;
+import { getTutorDetails } from "@/lib/data";
 
-  try {
-    const res = await fetch(`${apiURL}/tutors/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch tutor: ${res.status}`);
-    }
-
-    const data = await res.json();
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching tutor data in frontend:", error);
-    return [];
-  }
-};
 export default async function DynamicTutorDetails({ params }) {
   const { id } = await params;
   // console.log("id : ", id);
@@ -42,12 +20,9 @@ export default async function DynamicTutorDetails({ params }) {
     headers: await headers(),
   });
   //console.log(token);
-  const tutor = await tutorDataFetch(id, token);
+  const tutor = await getTutorDetails(id, token);
 
   console.log("tutor: ", tutor);
-  const currentDate = new Date();
-  const currentSlots = 2;
-  const totalSlot = 5;
   const {
     name,
     institution,
@@ -59,6 +34,7 @@ export default async function DynamicTutorDetails({ params }) {
     availableTimeSlot,
     sessionStartDate,
     hourlyFee,
+    totalSlot,
   } = tutor;
   return (
     <Suspense
@@ -77,20 +53,6 @@ export default async function DynamicTutorDetails({ params }) {
           >
             <ArrowLeft size={14} /> Back to Tutors List
           </Link>
-
-          {/* --- SYSTEM AUTO-GENERATED CONFIRMATION BANNER --- */}
-          {/*//! false */}
-          {/* {successBanner && (
-            <div className="p-4 rounded-xl border bg-emerald-950/40 border-emerald-800 text-emerald-400 text-xs flex items-center gap-2.5 animate-fadeIn">
-              <CheckCircle2 size={16} className="text-emerald-400" />
-              <span>
-                Booking Successful! Status:{" "}
-                <strong className="uppercase">Confirmed</strong>. Available slot
-                decremented by 1.
-              </span>
-            </div>
-          )} */}
-
           {/* Card Frame Showcase Panel Container */}
           <div className="bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-3">
             {/* Avatar Area */}
@@ -144,12 +106,12 @@ export default async function DynamicTutorDetails({ params }) {
                     <strong>Total Slots Opened:</strong>{" "}
                     <span
                       className={
-                        currentSlots === 0
+                        totalSlot === 0
                           ? "text-rose-400 font-bold"
                           : "text-emerald-400 font-bold"
                       }
                     >
-                      {currentSlots} left
+                      {totalSlot} left
                     </span>
                   </div>
                 </div>

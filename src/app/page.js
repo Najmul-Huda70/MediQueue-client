@@ -1,11 +1,12 @@
-import Image from "next/image";
+import { getTutors } from "@/lib/data";
+import AvailableTutors from "./components/AvailableTutors";
 import Hero from "./components/Hero";
-import Footer from "./components/Footer";
-
-export default function Home() {
+export default async function Home() {
+  const tutors = await getTutors();
   return (
     <>
-      <Hero />
+      <Hero tutors={tutors} />
+      <AvailableTutors tutors={tutors} />
     </>
   );
 }

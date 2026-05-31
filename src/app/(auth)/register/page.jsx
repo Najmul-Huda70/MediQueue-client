@@ -6,21 +6,43 @@ import Link from "next/link";
 import { User, Mail, Image, Lock, UserPlus, Loader2 } from "lucide-react";
 import { signUp } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-
+const validatePassword = (password) => {
+  if (password.length === 0) return null;
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long.";
+  } else if (!/[A-Z]/.test(password) && !/[a-z]/.test(password)) {
+    return "Password must contain at least one uppercase and lowercase letter.";
+  } else if (!/[A-Z]/.test(password)) {
+    return "Password must contain at least one uppercase letter.";
+  } else if (!/[a-z]/.test(password)) {
+    return "Password must contain at least one lowercase letter.";
+  } else return null;
+};
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [Password, setPassword] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const registerData = Object.fromEntries(formData.entries());
-    console.log("registerData: ", registerData);
+    if (
+      registerData.password < 8 ||
+      !/[A-Z]/.test(registerData.password) ||
+      !/[a-z]/.test(registerData.password)
+    ) {
+      toast.error(
+        "Please satisfy all password validation conditions before submitting.",
+      );
 
+      return;
+    }
+    setLoading(true);
+    console.log("registerData: ", registerData);
     try {
-      const { data, error } = await signUp.email({
+      const { error } = await signUp.email({
         email: registerData.email,
         password: registerData.password,
         name: registerData.name,
@@ -74,7 +96,7 @@ export default function RegisterPage() {
               type="text"
               name="name"
               required
-              placeholder="John Doe"
+              placeholder="Your name"
               className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
@@ -122,9 +144,13 @@ export default function RegisterPage() {
               name="password"
               required
               minLength={8}
+              onChange={(e) => setPassword(e.currentTarget.value)}
               placeholder="••••••••"
               className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-colors"
             />
+            <div className="flex items-center gap-1.5 transition-colors">
+              {validatePassword(Password)}
+            </div>
           </div>
 
           {/* Register Submit Button */}

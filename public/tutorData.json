@@ -1,0 +1,385 @@
+[
+  {
+    "id": "tut_001",
+
+    "name": "Dr. Najmul Huda",
+
+    "photoUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb",
+
+    "category": "Full-Stack Web Development",
+
+    "availableDays": ["Sun", "Tue", "Thu"],
+
+    "startTime": "18:00",
+
+    "endTime": "21:00",
+
+    "availableTimeSlot": "Sun, Tue, Thu 6:00 PM - 9:00 PM",
+
+    "hourlyFee": 45,
+
+    "totalSlot": 8,
+
+    "sessionStartDate": "2026-01-01",
+
+    "institution": "Bangladesh University of Engineering and Technology (BUET)",
+
+    "experience": "4+ years of hands-on industry building with Next.js, React, and microservices.",
+
+    "location": "Dhanmondi, Dhaka",
+
+    "teachingMode": "Both"
+  },
+
+  {
+    "id": "tut_002",
+
+    "name": "Tahmid Rahman",
+
+    "photoUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+
+    "category": "Machine Learning & AI",
+
+    "availableDays": ["Sat", "Mon", "Wed"],
+
+    "startTime": "19:00",
+
+    "endTime": "22:00",
+
+    "availableTimeSlot": "Sat, Mon, Wed 7:00 PM - 10:00 PM",
+
+    "hourlyFee": 55,
+
+    "totalSlot": 5,
+
+    "sessionStartDate": "2026-02-02",
+
+    "institution": "University of Dhaka (DU)",
+
+    "experience": "3+ years as a Data Scientist specialized in Python, TensorFlow, and Predictive Analytics.",
+
+    "location": "Banani, Dhaka",
+
+    "teachingMode": "Online"
+  },
+
+  {
+    "id": "tut_003",
+
+    "name": "Nusrat Jahan",
+
+    "photoUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+
+    "category": "UI/UX & Frontend Design",
+
+    "availableDays": ["Sun", "Wed"],
+
+    "startTime": "15:00",
+
+    "endTime": "18:00",
+
+    "availableTimeSlot": "Sun, Wed 3:00 PM - 6:00 PM",
+
+    "hourlyFee": 40,
+
+    "totalSlot": 6,
+
+    "sessionStartDate": "2026-06-04",
+
+    "institution": "Brac University",
+
+    "experience": "Expert designer with a strong focus on Figma systems, advanced Lottie motions, and component UI.",
+
+    "location": "Uttara, Dhaka",
+
+    "teachingMode": "Both"
+  },
+
+  {
+    "id": "tut_004",
+
+    "name": "Asif Elahi",
+
+    "photoUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+
+    "category": "Data Structures & Algorithms",
+
+    "availableDays": ["Fri", "Sat"],
+
+    "startTime": "10:00",
+
+    "endTime": "13:00",
+
+    "availableTimeSlot": "Fri, Sat 10:00 AM - 1:00 PM",
+
+    "hourlyFee": 50,
+
+    "totalSlot": 4,
+
+    "sessionStartDate": "2026-06-05",
+
+    "institution": "Shahjalal University of Science and Technology (SUST)",
+
+    "experience": "Competitive programmer with a deep focus on Graph theory, dynamic programming, and interview prep.",
+
+    "location": "Sylhet Sadar, Sylhet",
+
+    "teachingMode": "Online"
+  },
+
+  {
+    "id": "tut_005",
+
+    "name": "Fariha Sultana",
+
+    "photoUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
+
+    "category": "Cybersecurity & Networking",
+
+    "availableDays": ["Mon", "Thu"],
+
+    "startTime": "20:00",
+
+    "endTime": "22:30",
+
+    "availableTimeSlot": "Mon, Thu 8:00 PM - 10:30 PM",
+
+    "hourlyFee": 48,
+
+    "totalSlot": 7,
+
+    "sessionStartDate": "2026-04-03",
+
+    "institution": "Ahsanullah University of Science and Technology (AUST)",
+
+    "experience": "Certified security auditor practicing penetration testing and advanced network protocols architecture.",
+
+    "location": "Mirpur, Dhaka",
+
+    "teachingMode": "Offline"
+  },
+
+  {
+    "id": "tut_006",
+
+    "name": "Zayan Ahmed",
+
+    "photoUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+
+    "category": "Cloud Architecture & DevOps",
+
+    "availableDays": ["Tue", "Thu"],
+
+    "startTime": "19:30",
+
+    "endTime": "22:00",
+
+    "availableTimeSlot": "Tue, Thu 7:30 PM - 10:00 PM",
+
+    "hourlyFee": 60,
+
+    "totalSlot": 5,
+
+    "sessionStartDate": "2026-05-02",
+
+    "institution": "North South University (NSU)",
+
+    "experience": "AWS Certified Solutions Architect specializing in Docker setups, Kubernetes clusters, and CI/CD pipelining.",
+
+    "location": "Bashundhara R/A, Dhaka",
+
+    "teachingMode": "Online"
+  },
+
+  {
+    "id": "tut_007",
+
+    "name": "Sajid Chowdhury",
+
+    "photoUrl": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7",
+
+    "category": "Mobile App Development",
+
+    "availableDays": ["Sat", "Wed"],
+
+    "startTime": "16:00",
+
+    "endTime": "19:00",
+
+    "availableTimeSlot": "Sat, Wed 4:00 PM - 7:00 PM",
+
+    "hourlyFee": 42,
+
+    "totalSlot": 9,
+
+    "sessionStartDate": "2026-05-06",
+
+    "institution": "Islamic University of Technology (IUT)",
+
+    "experience": "Cross-platform mobile application builder leveraging Flutter, React Native, and native API structures.",
+
+    "location": "Gazipur Sadar, Gazipur",
+
+    "teachingMode": "Both"
+  },
+
+  {
+    "id": "tut_008",
+
+    "name": "Anika Tabassum",
+
+    "photoUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+
+    "category": "Database Engineering",
+
+    "availableDays": ["Sun", "Tue"],
+
+    "startTime": "14:00",
+
+    "endTime": "17:00",
+
+    "availableTimeSlot": "Sun, Tue 2:00 PM - 5:00 PM",
+
+    "hourlyFee": 38,
+
+    "totalSlot": 6,
+
+    "sessionStartDate": "2026-05-01",
+
+    "institution": "Chittagong University of Engineering and Technology (CUET)",
+
+    "experience": "Database expert guiding through PostgreSQL optimization, indexing architectures, and MongoDB scaling.",
+
+    "location": "Khulshi, Chittagong",
+
+    "teachingMode": "Online"
+  },
+
+  {
+    "id": "tut_009",
+
+    "name": "Abrar Fahim",
+
+    "photoUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
+
+    "category": "Software Testing & QA",
+
+    "availableDays": ["Mon", "Wed"],
+
+    "startTime": "18:30",
+
+    "endTime": "21:00",
+
+    "availableTimeSlot": "Mon, Wed 6:30 PM - 9:00 PM",
+
+    "hourlyFee": 35,
+
+    "totalSlot": 10,
+
+    "sessionStartDate": "2026-05-03",
+
+    "institution": "Khulna University of Engineering and Technology (KUET)",
+
+    "experience": "QA Lead focused on automated testing architectures using Selenium, Cypress, and Unit integration pipelines.",
+
+    "location": "Boyra, Khulna",
+
+    "teachingMode": "Offline"
+  },
+
+  {
+    "id": "tut_010",
+
+    "name": "Sabrina Yesmin",
+
+    "photoUrl": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2",
+
+    "category": "BlockChain Engineering",
+
+    "availableDays": ["Sat", "Thu"],
+
+    "startTime": "20:00",
+
+    "endTime": "23:00",
+
+    "availableTimeSlot": "Sat, Thu 8:00 PM - 11:00 PM",
+
+    "hourlyFee": 65,
+
+    "totalSlot": 3,
+
+    "sessionStartDate": "2026-07-07",
+
+    "institution": "Rajshahi University of Engineering and Technology (RUET)",
+
+    "experience": "Core Web3 developer practicing Ethereum Solidity, smart-contract tokens compilation, and consensus matrix.",
+
+    "location": "Motihar, Rajshahi",
+
+    "teachingMode": "Online"
+  },
+
+  {
+    "id": "tut_011",
+
+    "name": "Imran Hossain",
+
+    "photoUrl": "https://images.unsplash.com/photo-1628157582853-a796fa650a6a",
+
+    "category": "Game Design & WebGL",
+
+    "availableDays": ["Tue", "Fri"],
+
+    "startTime": "16:00",
+
+    "endTime": "19:00",
+
+    "availableTimeSlot": "Tue, Fri 4:00 PM - 7:00 PM",
+
+    "hourlyFee": 47,
+
+    "totalSlot": 5,
+
+    "sessionStartDate": "2026-05-02",
+
+    "institution": "Jahangirnagar University (JU)",
+
+    "experience": "3D graphics enthusiast modeling canvas with Three.js, shaders, Unity systems, and interaction loops.",
+
+    "location": "Savar, Dhaka",
+
+    "teachingMode": "Both"
+  },
+
+  {
+    "id": "tut_012",
+
+    "name": "Mehzabin Chowdhury",
+
+    "photoUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500&auto=format&fit=crop",
+
+    "category": "Embedded Systems & IoT",
+
+    "availableDays": ["Sun", "Mon", "Thu"],
+
+    "startTime": "11:00",
+
+    "endTime": "14:00",
+
+    "availableTimeSlot": "Sun, Mon, Thu 11:00 AM - 2:00 PM",
+
+    "hourlyFee": 52,
+
+    "totalSlot": 4,
+
+    "sessionStartDate": "2026-05-01",
+
+    "institution": "American International University-Bangladesh (AIUB)",
+
+    "experience": "Robotics instructor writing optimal C++ automation scripts, Arduino parameters, and microcontrollers setup.",
+
+    "location": "Kuril, Dhaka",
+
+    "teachingMode": "Offline"
+  }
+]

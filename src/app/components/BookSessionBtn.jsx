@@ -10,9 +10,10 @@ export default function BookSessionBtn({ tutor }) {
   const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const currentDate = new Date();
+  const sessionDate = new Date(tutor.sessionStartDate);
+  const isValid = currentDate >= sessionDate;
   const handleBooked = async (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget));
@@ -33,7 +34,7 @@ export default function BookSessionBtn({ tutor }) {
       studentEmail: email,
       tutorCategory: tutor?.category,
       phone: formData.phone,
-      // thumbnail: tutor?.thumbnail,
+      status: "pending",
     };
     console.log("updateData: ", updatedData);
     try {
@@ -71,7 +72,8 @@ export default function BookSessionBtn({ tutor }) {
     <div>
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg active:scale-95 flex items-center gap-2"
+        disabled={!isValid}
+        className={`bg-blue-600 ${isValid ? "bg-blue-600 hover:bg-blue-500" : "bg-gray-800 text-gray-500 cursor-not-allowed"}  text-white text-xs font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg active:scale-95 flex items-center gap-2`}
       >
         Book Session
       </button>

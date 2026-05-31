@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import Link from "next/link";
 import {
   MapPin,
@@ -7,12 +8,11 @@ import {
   Layers,
   GraduationCap,
 } from "lucide-react";
-import { Suspense } from "react";
-import { getTutors } from "@/lib/data";
 import Image from "next/image";
 
-export default async function TutorsDirectory() {
-  const tutorsData = await getTutors();
+export default function AvailableTutors({ tutors = [] }) {
+  const tutorsData = tutors.slice(0, 6);
+
   return (
     <Suspense
       fallback={
