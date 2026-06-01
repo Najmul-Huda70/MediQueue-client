@@ -4,31 +4,8 @@ import { headers } from "next/headers";
 import { Suspense } from "react";
 import toast from "react-hot-toast";
 import CancelBtn from "../components/CancelBtn";
+import { bookedDataFetch } from "@/lib/data";
 
-const bookedDataFetch = async (email, token) => {
-  const apiURL = process.env.NEXT_PUBLIC_API_URL;
-
-  try {
-    const res = await fetch(`${apiURL}/booked?email=${email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch booked: ${res.status}`);
-    }
-
-    const data = await res.json();
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching booked data in frontend:", error);
-    return [];
-  }
-};
 export default async function MyBookedSessions() {
   const { token } = await auth.api.getToken({
     headers: await headers(),
@@ -79,7 +56,6 @@ export default async function MyBookedSessions() {
           </p>
         </div>
 
-        {/* 🌟 ফিক্স: সঠিক স্টেট দিয়ে লেন্থ চেক করা হলো (bookedSessions) */}
         {booked.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center p-12 border border-dashed border-gray-800 rounded-2xl bg-gray-900/30">
             <div className="p-4 bg-gray-900 border border-gray-800 rounded-full text-gray-500 mb-4">

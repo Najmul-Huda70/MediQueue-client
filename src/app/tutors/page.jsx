@@ -36,12 +36,12 @@ export default async function TutorsDirectory() {
 
           {/* Essential 3-Column Grid Configuration Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {tutorsData.map((tutor) => {
+            {tutorsData.map((tutor, index) => {
               const isOutofSlots = tutor.totalSlot === 0;
 
               return (
                 <div
-                  key={tutor.id}
+                  key={index}
                   className="flex flex-col bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-xl hover:border-gray-700 transition-all group"
                 >
                   {/* Tutor Profile Banner Frame */}
